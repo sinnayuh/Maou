@@ -24,6 +24,8 @@
 
 ## Usage [YOU NEED JAVA 17 TO USE THIS]:
 * Download [Maou.jar]() from Releases
+* Put Maou.jar inside a Directory where you wish to run the bot
+* Make a .env for your bots token (example listed above)
 * Run Maou with `java -jar Maou.jar`
 * Type a command in a Text Channel and Enjoy!
 
