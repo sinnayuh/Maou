@@ -23,7 +23,7 @@
 ---
 
 ## Usage [YOU NEED JAVA 17 TO USE THIS]:
-* Download [Maou.jar]() from Releases
+* Download [Maou.jar](https://github.com/rootuwu/Maou/releases/download/1.0-SNAPSHOT/Maou-1.0-SNAPSHOT.jar) from Releases
 * Put Maou.jar inside a Directory where you wish to run the bot
 * Make a .env for your bots token (example listed above)
 * Run Maou with `java -jar Maou.jar`
