@@ -37,3 +37,7 @@
 
 ## Disclaimer:
 I'm not responsible for what you do. This bot is made for educational purposes only.
+
+---
+
+Credits to [@Devous](https://github.com/devous) wouldn't have been able to make this without him.
