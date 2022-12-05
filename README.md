@@ -22,5 +22,12 @@
 
 ---
 
+## Usage [YOU NEED JAVA 17 TO USE THIS]:
+* Download [Maou.jar]() from Releases
+* Run Maou with `java -jar Maou.jar`
+* Type a command in a Text Channel and Enjoy!
+
+---
+
 ## Disclaimer:
 I'm not responsible for what you do. This bot is made for educational purposes only.
