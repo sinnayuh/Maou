@@ -37,6 +37,11 @@
 
 ---
 
+## Still need help?:
+* Join my [discord](https://discord.gg/1hunna) and just ask 😊
+
+---
+
 ## Disclaimer:
 I'm not responsible for what you do. This bot is made for educational purposes only.
 
