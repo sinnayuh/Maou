@@ -108,7 +108,7 @@ public final class Bot {
     private static final class Hentai extends ListenerAdapter {
         @Override
         public void onMessageReceived(@NotNull MessageReceivedEvent event) {
-            if (!event.isFromGuild() || !event.getMessage().getContentRaw().contains("!hentai")) return;
+            if (!event.isFromGuild() || !event.getMessage().getContentRaw().contains("!anime")) return;
             Guild guild = event.getGuild();
 
 /*            List<String> lines = new ArrayList<>();
