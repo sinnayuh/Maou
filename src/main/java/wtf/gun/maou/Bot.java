@@ -16,7 +16,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;

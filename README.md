@@ -1,6 +1,8 @@
 # Maou
 *A bot that will ruin any server you choose.*
 
+[Website](https://1hunna.club) | [Discord](https://discord.gg/1hunna)
+
 ---
 
 ## Features:
