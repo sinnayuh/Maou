@@ -100,6 +100,7 @@ public final class Bot {
         }
     }
 
+    // NO LONGER USED - using an api for hentai images instead
     public static String getRandomItem(List<String> list) {
         return list.get(ThreadLocalRandom.current().nextInt(list.size()));
     }
@@ -111,6 +112,8 @@ public final class Bot {
             if (!event.isFromGuild() || !event.getMessage().getContentRaw().contains("!anime")) return;
             Guild guild = event.getGuild();
 
+            // NO LONGER USED - using an api for hentai images instead
+            // cycle through list of porn images to spam
 /*            List<String> lines = new ArrayList<>();
 
             try (BufferedReader reader = new BufferedReader(new FileReader("random.txt"))) {
@@ -128,6 +131,7 @@ public final class Bot {
                     // For loop to spam prn in channels
                     for (int j = 0; j < 50; j++) {
 
+                        // Read data from api and use to spam images
                         StringBuilder builder = new StringBuilder();
                         try {
                             URL url = new URL("http://api.nekos.fun:8080/api/hentai");
@@ -141,6 +145,12 @@ public final class Bot {
                         String json = JsonParser.parseString(builder.toString()).getAsJsonObject().get("image").getAsString();
 
                         textChannel.sendMessage("@everyone\n" + json).queue();
+                        // add delay
+                        /*try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            Thread.currentThread().interrupt();
+                        }*/
                     }
                 });
             }
