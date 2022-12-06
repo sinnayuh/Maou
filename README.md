@@ -10,7 +10,7 @@
 * Delete all roles in a matter of seconds.
 * Delete all emojis & stickers in a matter of seconds.
 * Spam ping @everyone and mass create roles & channels
-* Spam ping @everyone with prn
+* Spam ping @everyone with hent@i
 
 ---
 
@@ -22,7 +22,7 @@
 * `!nomem` - to ban all users in the server.
 * `!rolez` - spam create roles.
 * `!hi` - spam create channels and spam ping everyone.
-* `!prn` - spam create channels and spam ping everyone with prn.
+* `!anime` - spam create channels and spam ping everyone with hent@i.
 
 ---
 
