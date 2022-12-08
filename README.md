@@ -51,4 +51,10 @@ I'm not responsible for what you do. This bot is made for educational purposes o
 
 ---
 
+## License:
+
+This project is under the GPLv3 License. See the [GPLv3 License](https://github.com/rootuwu/Maou/blob/main/LICENSE) file for the full license text.
+
+---
+
 Credits to [@Devous](https://github.com/devous) wouldn't have been able to make this without him.
