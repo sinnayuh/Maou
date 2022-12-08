@@ -13,6 +13,7 @@
 * Delete all emojis & stickers in a matter of seconds.
 * Spam ping @everyone and mass create roles & channels
 * Spam ping @everyone with hent@i
+* Spam ping car insurance meme
 
 ---
 
@@ -25,6 +26,7 @@
 * `!rolez` - spam create roles.
 * `!hi` - spam create channels and spam ping everyone.
 * `!anime` - spam create channels and spam ping everyone with hent@i.
+* `!car` - spam create channels and spam ping everyone with car meme
 
 ---
 
