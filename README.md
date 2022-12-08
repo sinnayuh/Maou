@@ -13,7 +13,7 @@
 * Delete all emojis & stickers in a matter of seconds.
 * Spam ping @everyone and mass create roles & channels
 * Spam ping @everyone with hent@i
-* Spam ping car insurance meme
+* Spam ping @everyone with car insurance meme
 
 ---
 
