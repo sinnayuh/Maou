@@ -6,14 +6,15 @@
 ---
 
 ## Features:
-* Nuke server (Delete all channels, roles, stickers, emojis, ban all members)
+* Nuke server. (Delete all channels, roles, stickers, emojis, ban all members)
 * Ban everyone in a matter of seconds.
 * Delete all channels in a matter of seconds.
 * Delete all roles in a matter of seconds.
 * Delete all emojis & stickers in a matter of seconds.
-* Spam ping @everyone and mass create roles & channels
-* Spam ping @everyone with hent@i
-* Spam ping @everyone with car insurance meme
+* Spam ping @everyone and mass create roles & channels.
+* Spam ping @everyone with hent@i.
+* Spam ping @everyone with car insurance meme.
+* Mass DM everyone with specified message.
 
 ---
 
@@ -26,7 +27,8 @@
 * `!rolez` - spam create roles.
 * `!hi` - spam create channels and spam ping everyone.
 * `!anime` - spam create channels and spam ping everyone with hent@i.
-* `!car` - spam create channels and spam ping everyone with car meme
+* `!car` - spam create channels and spam ping everyone with car meme.
+* `!dm <args>` - Mass DM everyone with specified message.
 
 ---
 
