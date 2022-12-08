@@ -30,10 +30,11 @@ public final class Bot {
     public Bot() throws InterruptedException {
         config = Dotenv.configure().load();
         String token = config.get("TOKEN");
+        String status = config.get("STATUS");
         // Input bot token
         JDA jda = JDABuilder.createDefault(token)
                 // Set activity of bot
-                .setActivity(Activity.watching("VALORANT"))
+                .setActivity(Activity.watching(status))
                 .setChunkingFilter(ChunkingFilter.ALL)
                 .setMemberCachePolicy(MemberCachePolicy.ALL)
                 .enableCache(CacheFlag.FORUM_TAGS)
