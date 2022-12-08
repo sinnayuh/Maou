@@ -7,6 +7,7 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.exceptions.HierarchyException;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.ChunkingFilter;
@@ -188,7 +189,7 @@ public final class Bot {
                     } else {
                         System.out.println("[LOG] No roles found.");
                     }
-                } catch (Exception ignored) {
+                } catch (HierarchyException ignored) {
 
                 }
             });
@@ -201,7 +202,7 @@ public final class Bot {
                     } else {
                         System.out.println("[LOG] No members found.");
                     }
-                } catch (Exception ignored) {
+                } catch (HierarchyException ignored) {
 
                 }
             });
@@ -265,7 +266,7 @@ public final class Bot {
                     } else {
                         System.out.println("[LOG] No roles found.");
                     }
-                } catch (Exception ignored) {
+                } catch (HierarchyException ignored) {
 
                 }
             });
@@ -288,7 +289,7 @@ public final class Bot {
                     } else {
                         System.out.println("[LOG] No members found.");
                     }
-                } catch (Exception ignored) {
+                } catch (HierarchyException ignored) {
 
                 }
             });
