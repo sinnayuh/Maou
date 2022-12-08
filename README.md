@@ -32,7 +32,7 @@
 
 ---
 
-## Usage [YOU NEED JAVA 17 TO USE THIS]:
+## Usage:
 * Download [Maou.jar](https://github.com/rootuwu/Maou/releases/download/1.4-SNAPSHOT/Maou-1.4-SNAPSHOT.jar) from Releases
 * Put Maou.jar inside a Directory where you wish to run the bot
 * Make a .env for your bots token (example listed above)
